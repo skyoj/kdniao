@@ -15,18 +15,12 @@ class Handle(object):
             print "Handle Post webdata is", webData
             reqData = receive.parse_xml(webData)
             print reqData
-            if isinstance(reqData, receive.Msg):
-                request_data = reqData.RequestData
-                data = json.loads(request_data)
-                res_data = {
-                    'EBusinessID': data['EBusinessID'],
-                    'Success': 'true',
-                    'UpdateTime': datetime.datetime.now().strftime("%Y-%m-%d" "%H:%M:%S")
-                }
-                print res_data
-                return res_data
-            else:
-                print "暂不处理"
-                return "success"
-        except Exception, Argment:
-            return Argment
+            request_data = reqData.RequestData
+            data = json.loads(request_data)
+            res_data = {
+                'EBusinessID': data['EBusinessID'],
+                'Success': 'true',
+                'UpdateTime': datetime.datetime.now().strftime("%Y-%m-%d" "%H:%M:%S")
+            }
+            print res_data
+            return res_data
