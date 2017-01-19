@@ -14,6 +14,7 @@ class Handle(object):
             print type(webData)
             print "Handle Post webdata is", webData
             reqData = receive.parse_xml(webData)
+            print reqData
             if isinstance(reqData, receive.Msg):
                 request_data = reqData.RequestData
                 data = json.loads(request_data)
