@@ -4,6 +4,8 @@ import web
 import receive
 import reply
 import kdniao
+import json
+import datetime
 
 class Handle(object):
     def POST(self):
@@ -11,13 +13,17 @@ class Handle(object):
             webData = web.data()
             print type(webData)
             print "Handle Post webdata is", webData
-            recMsg = receive.parse_xml(webData)
-            if isinstance(recMsg, receive.Msg) and recMsg.MsgType == 'text':
-                toUser = recMsg.FromUserName
-                fromUser = recMsg.ToUserName
-                content = kdniao.get_express(recMsg.Content)
-                replyMsg = reply.TextMsg(toUser,fromUser,content)
-                return replyMsg.send()
+            reqData = receive.parse_xml(webData)
+            if isinstance(reqData, receive.Msg):
+                request_data = reqData.RequestData
+                data = json.loads(request_data)
+                res_data = {
+                    'EBusinessID': data['EBusinessID'],
+                    'Success': 'true',
+                    'UpdateTime': datetime.datetime.now().strftime("%Y-%m-%d" "%H:%M:%S")
+                }
+                print res_data
+                return res_data
             else:
                 print "暂不处理"
                 return "success"
